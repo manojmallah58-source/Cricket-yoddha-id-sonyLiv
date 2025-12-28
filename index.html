@@ -8,14 +8,22 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* NOTE: The existing <style> block is kept, but the new structure below uses inline styles for the main content cards. */
+    :root {
+      --primary-dark: #0D1117;
+      --secondary-dark: #161B22;
+      --border-color: #30363D;
+      --accent-color: #FACC15; /* Yellow/Gold Accent */
+      --text-primary: #E6EDF3;
+      --text-secondary: #8B949E;
+    }
+
     html, body {
       margin: 0;
       padding: 0;
-      background: #0a0a0a;
+      background: var(--primary-dark);
       font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
-      color: #e0e0e0;
+      color: var(--text-primary);
     }
 
     header {
@@ -24,46 +32,54 @@
       left: 0;
       right: 0;
       height: 70px;
-      background: rgba(10, 10, 10, 0.85);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
+      background: rgba(13, 17, 23, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
-      justify-content: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      justify-content: center; 
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border-color);
       z-index: 9999;
       box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
     }
 
     header img {
-      height: 65%;
-      filter: drop-shadow(0 0 8px rgba(29, 185, 84, 0.3));
+      height: 60%;
+      filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.4));
       transition: filter 0.3s ease;
     }
 
     header:hover img {
-      filter: drop-shadow(0 0 12px rgba(29, 185, 84, 0.5));
+      filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.6));
     }
 
-    /* 🔔 Popup Styles */
+    .menu-icon {
+      position: absolute;
+      left: 20px;
+      font-size: 30px;
+      cursor: pointer;
+      color: var(--text-primary);
+    }
+    
     .popup-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.8);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 10002;
+      backdrop-filter: blur(5px);
     }
 
     .popup-box {
       width: 320px;
-      background: rgba(20, 20, 30, 0.6);
-      border: 1px solid rgba(173, 216, 230, 0.25);
+      background: var(--secondary-dark);
+      border: 1px solid var(--border-color);
       border-radius: 20px;
-      backdrop-filter: blur(15px);
-      box-shadow: 0 0 25px rgba(0, 255, 255, 0.4), 0 0 80px rgba(173, 216, 230, 0.15);
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.5), 0 0 80px rgba(250, 204, 21, 0.15);
       padding: 2rem 1.5rem;
       text-align: center;
       animation: fadeIn 0.5s ease forwards;
@@ -78,27 +94,27 @@
     .popup-header {
       font-size: 2rem;
       font-weight: 700;
-      background: linear-gradient(45deg, #00eaff, #bd00ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--accent-color);
       margin-bottom: 0.4rem;
-      text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+      text-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
     }
 
     .popup-subtitle {
       font-size: 1rem;
-      color: #aaa;
-      margin-bottom: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
     }
 
     .popup-buttons {
       display: flex;
       flex-direction: column;
-      gap: 0.7rem;
+      gap: 0.8rem;
     }
 
-    .popup-buttons a {
+    .popup-buttons a, .popup-buttons button {
       text-decoration: none;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .popup-btn {
@@ -106,33 +122,46 @@
       border-radius: 12px;
       font-weight: 600;
       font-size: 1rem;
-      color: #fff;
+      color: var(--primary-dark);
       cursor: pointer;
       transition: all 0.35s ease;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: none;
       position: relative;
       overflow: hidden;
     }
 
     .join-btn {
-      background: linear-gradient(135deg, #00eaff, #9c00ff);
-      box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+      background: var(--accent-color);
+      box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+    }
+    .join-btn:hover {
+        background: #FBCB0A;
+        box-shadow: 0 0 20px rgba(250, 204, 21, 0.6);
     }
 
     .already-btn {
-      background: rgba(255,255,255,0.05);
+      background: var(--primary-dark);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+    }
+    .already-btn:hover {
+        background: var(--secondary-dark);
+        border-color: var(--text-secondary);
     }
 
     .close-btn {
       position: absolute;
       top: 12px;
       right: 18px;
-      font-size: 1.3rem;
-      color: #00eaff;
+      font-size: 1.5rem;
+      color: var(--text-secondary);
       background: none;
       border: none;
       cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    .close-btn:hover {
+        color: var(--text-primary);
     }
 
     .video-container {
@@ -140,7 +169,8 @@
       aspect-ratio: 16/9;
       background: #000;
       margin-top: 70px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+      border-bottom: 1px solid var(--border-color);
     }
 
     .video-container iframe {
@@ -149,78 +179,125 @@
       border: none;
       display: block;
     }
-    
-    .menu-icon {
-      position: absolute; left: 16px; color: #fff; font-size: 30px; cursor: pointer;
 
-}
+    .action-bar-container {
+        padding: 25px 15px;
+        background: var(--primary-dark);
+    }
     
+    .action-bar {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background: var(--secondary-dark);
+        border-radius: 15px;
+        padding: 15px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .action-button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: var(--text-secondary);
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .action-button:hover {
+        color: var(--accent-color);
+        transform: translateY(-5px);
+    }
+
+    .action-button .icon-wrapper {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, #1a1f27, #13171e);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid var(--border-color);
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .action-button:hover .icon-wrapper {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 15px rgba(250, 204, 21, 0.3);
+    }
+    
+    .action-button .material-icons {
+        font-size: 28px;
+        color: var(--text-primary);
+        transition: color 0.3s ease;
+    }
+    
+    .action-button:hover .material-icons {
+        color: var(--accent-color);
+    }
+
+    .action-button span {
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    /* Styles for the new viewer count text */
+    #viewer-count {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .action-button:hover #viewer-count {
+      color: var(--accent-color);
+    }
+
+
+    .sidebar {
+      position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
+      background: rgba(22, 27, 34, 0.8);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid var(--border-color);
+      color: var(--text-primary); z-index: 10001; transition: left 0.5s ease;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.4);
+      border-top-right-radius: 12px; border-bottom-right-radius: 12px;
+    }
+    .sidebar.open { left: 0; }
+    .sidebar a {
+      display: block; padding: 15px 24px; color: var(--text-primary); text-decoration: none;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 500; font-size: 16px;
+      transition: background 0.3s, padding-left 0.3s;
+    }
+     .sidebar a:hover {
+        background: rgba(250, 204, 21, 0.1);
+        padding-left: 30px;
+    }
     .menu-header {
       font-size: 20px;
       font-weight: 600;
       text-align: center;
-      padding: 15px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.08);
-      color: #fff;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--secondary-dark);
+      color: var(--accent-color);
     }
     
     .overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.7);
       z-index: 10000;
       display: none;
     }
-
-    .overlay.show {
-      display: block;
-    }
-    
-    /* Sidebar Styles */
-    .sidebar {
-      position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      border-right: 1px solid rgba(255,255,255,0.2);
-      color: #fff; z-index: 10001; transition: left 0.5s ease;
-      padding-top: 80px; box-shadow: 4px 0 15px rgba(0,0,0,0.4);
-      border-top-right-radius: 12px; border-bottom-right-radius: 12px;
-    }
-    .sidebar.open { left: 0; }
-    .sidebar a {
-      display: block; padding: 15px 24px; color: #fff; text-decoration: none;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      font-weight: 500; font-size: 16px;
-      transition: background 0.3s, padding-left 0.3s;
-    }
-    .counter-box {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.08);
-      padding: 12px;
-      border-radius: 16px;
-      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
-      margin-top: 1rem;
-    }
-    
-    .counter-box img {
-      height: 48px;
-    }
-
+    .overlay.show { display: block; }
   </style>
 </head>
 <body>
-<div class="popup-overlay" id="visitorPopup" style="display:none;">
-  <div class="popup-box">
-    <button class="close-btn" onclick="closeVisitorPopup()">×</button>
-    <div class="popup-header">Total Visitors</div>
-    <div class="popup-subtitle">Users Live On Web</div>
-    <div class="counter-box">
-      <img src="https://visit-counter.vercel.app/counter.png?page=allrounder.com&s=40&c=00ff00&bg=00000000&no=10&ff=digi&tb=&ta=" alt="Visitor Count" />
-    </div>
-  </div>
-</div>
+
+<!-- =========== TELEGRAM POPUP ============ -->
 <div class="popup-overlay" id="popup">
   <div class="popup-box">
     <button class="close-btn" onclick="closePopup()">×</button>
@@ -232,13 +309,15 @@
     </div>
   </div>
 </div>
+
   <header>
-<span class="material-icons menu-icon" onclick="toggleSidebar()">menu</span>
+    <span class="material-icons menu-icon" onclick="toggleSidebar()">menu</span>
     <img src="https://i.ibb.co/HLkW7zJV/ei-1765534270242-removebg-preview.png" alt="Logo">
   </header>
+
 <div class="video-container">
   <iframe
-    src="https://allrounderlive.pages.dev/dilz?id=dillzy745"
+    src="https://cricketstan.github.io/channel-10"
     frameborder="0"
     allowfullscreen
     allow="autoplay; encrypted-media"
@@ -246,174 +325,107 @@
   ></iframe>
 </div>
 
-<div style="background:#000;padding:20px;font-family:'Poppins', sans-serif;color:#fff;">
-
-    <div style="
-        background:#111;
-        padding:18px 20px;
-        border-radius:18px;
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin-bottom:25px;
-    ">
-        <h2 style="margin:0;font-size:24px;font-weight:600;">SONYLIV</h2>
-
-        <div style="
-            background:#d1001f;
-            padding:6px 16px;
-            border-radius:20px;
-            font-size:14px;
-            font-weight:700;
-            display:flex;
-            align-items:center;
-        ">
-            🔴 LIVE
+<div class="action-bar-container">
+    <div class="action-bar">
+        <!-- LIVE VIEWER COUNT (REPLACED THE OLD LIVE ICON) -->
+        <div class="action-button">
+            <div class="icon-wrapper">
+                <span id="viewer-count">...</span>
+            </div>
+            <span>Watching</span>
         </div>
-    </div>
 
-    <div style="
-        background:#1a1a1a;
-        padding:20px;
-        border-radius:20px;
-        margin-bottom:25px;
-    ">
-        <p style="
-            margin:0 0 12px;
-            font-size:16px;
-            font-weight:600;
-            color:#c9c9c9;
-        ">
-            📣 Follow us for more Updates
-        </p>
-
-<a href="https://t.me/+rwZKMV0-L8wyOTll" target="_blank" style="
-            display:block;
-            background:linear-gradient(to right, #ff1a1a, #d60000);
-            padding:15px;
-            text-align:center;
-            border-radius:14px;
-            text-decoration:none;
-            color:#fff;
-            font-size:17px;
-            font-weight:700;
-            box-shadow:0 0 12px rgba(255,0,0,0.28);
-        ">
-            🚀  Join Telegram
+        <a href="https://t.me/+rwZKMV0-L8wyOTll" target="_blank" class="action-button">
+            <div class="icon-wrapper">
+                <i class="material-icons">send</i>
+            </div>
+            <span>Join Us</span>
+        </a>
+        <a href="javascript:void(0)" onclick="sharePageLink()" class="action-button">
+            <div class="icon-wrapper">
+                <i class="material-icons">share</i>
+            </div>
+            <span>Share</span>
         </a>
     </div>
-
-    <div style="
-        background:#1a1a1a;
-        padding:20px;
-        border-radius:20px;
-    ">
-        <p style="
-            margin:0 0 12px;
-            font-size:16px;
-            font-weight:600;
-            color:#c9c9c9;
-        ">
-            🔗 Share Stream
-        </p>
-
-        <button onclick="sharePageLink()" style="
-            display:block;
-            width: 100%; /* Important for button to fill width */
-            border: none;
-            cursor: pointer;
-            background:linear-gradient(to right, #ff1a1a, #d60000);
-            padding:15px;
-            text-align:center;
-            border-radius:14px;
-            text-decoration:none;
-            color:#fff;
-            font-size:17px;
-            font-weight:700;
-            box-shadow:0 0 12px rgba(255,0,0,0.28);
-        ">
-            📤  Share This Page Link
-        </button>
-    </div>
 </div>
+
 <div class="sidebar" id="sidebar">
   <div class="menu-header">MENU</div>
-  <a href="https://t.me/+rwZKMV0-L8wyOTll" target="_blank"> Join Our Telegram</a>
-  <a href="https://t.me/+rwZKMV0-L8wyOTll" target="_blank"> Contact Us</a>
+  <a href="https://t.me/+rwZKMV0-L8wyOTll" target="_blank">Join Our Telegram</a>
+  <a href="https://t.me/+rwZKMV0-L8wyOTll" target="_blank">Contact Us</a>
   <a href="https://t.me/+rwZKMV0-L8wyOTll" target="_blank">Copyright</a>
-<a href="#" onclick="showVisitorPopup()">Total Visitor</a>
 </div>
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
   <script>
-    const jsonUrl = 'https://raw.githubusercontent.com/StmpupCricket/Star-Sports-Hindi-json/refs/heads/main/data.json';
     const telegramLink = 'https://t.me/+rwZKMV0-L8wyOTll';
 
-    // Original HLS/Plyr code kept here for functional completeness, 
-    // although the main video display uses the iframe.
-    /*
-    fetch(jsonUrl)
-      .then(res => res.json())
-      .then(data => {
-        // ... HLS/Plyr logic
-      })
-      .catch(err => {
-        console.error('Failed to load stream:', err);
-      });
-    */
-
-function toggleSidebar() {
-
-document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('show');
-  }
-function closePopup() {
-  document.getElementById('popup').style.display = 'none';
-}
-function showVisitorPopup() {
-    const popup = document.getElementById("visitorPopup");
-    popup.style.display = "flex";
-    setTimeout(() => {
-      popup.querySelector('.popup-box').style.opacity = '1';
-    }, 10);
-  }
-
-  function closeVisitorPopup() {
-    const popup = document.getElementById("visitorPopup");
-    popup.querySelector('.popup-box').style.opacity = '0';
-    setTimeout(() => {
-      popup.style.display = "none";
-    }, 300);
-  }
-
-// SHARE FUNCTIONALITY
-async function sharePageLink() {
-    const shareData = {
-        title: 'CRICKET YODDHA - Live Match',
-        // English Translation of the share text
-        text: 'Watch Live Cricket Match here: CRICKET YODDHA! 🏏\n\nJoin our Telegram Channel for updates: ' + telegramLink,
-        url: window.location.href,
-    };
-
-    try {
-        if (navigator.share) {
-            // Use Web Share API for modern browsers
-            await navigator.share(shareData);
-        } else {
-            // Fallback for older browsers: Copy link to clipboard
-            await navigator.clipboard.writeText(shareData.text + '\n\nLink: ' + shareData.url);
-
-// English Translation of the alert message
-            alert("Link and sharing text copied! You can now share it anywhere.");
-        }
-    } catch (err) {
-        console.error('Share failed:', err);
-        // English Translation of the error alert
-        alert('There was an issue sharing. Please copy the link manually.');
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('show');
     }
-}
+    
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+    }
+
+    async function sharePageLink() {
+        const shareData = {
+            title: 'CRICKET YODDHA - Live Match',
+            text: 'Watch Live Cricket Match here: CRICKET YODDHA! 🏏\n\nJoin our Telegram Channel for updates: ' + telegramLink,
+            url: window.location.href,
+        };
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else {
+                await navigator.clipboard.writeText(shareData.text + '\n\nLink: ' + shareData.url);
+                alert("Link and sharing text copied! You can now share it anywhere.");
+            }
+        } catch (err) {
+            console.error('Share failed:', err);
+            alert('There was an issue sharing. Please copy the link manually.');
+        }
+    }
+
+    /**
+     * SIMULATED LIVE VIEWER COUNT
+     * NOTE: This is a simulation. A real-time viewer count requires a server
+     * to track active connections and send updates to the clients.
+     */
+    function simulateLiveViewers() {
+        const countElement = document.getElementById('viewer-count');
+        let currentViewers = Math.floor(Math.random() * 800) + 1200; // Start with a random number between 1200 and 2000
+
+        // Function to format numbers (e.g., 1234 becomes 1.2K)
+        function formatCount(num) {
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num;
+        }
+
+        // Set the initial count
+        countElement.textContent = formatCount(currentViewers);
+
+        // Update the count every few seconds to make it look dynamic
+        setInterval(() => {
+            const fluctuation = Math.floor(Math.random() * 50) - 25; // Random change between -25 and +24
+            currentViewers += fluctuation;
+
+            // Make sure the count doesn't go below a certain number
+            if (currentViewers < 1000) {
+                currentViewers = 1000 + Math.floor(Math.random() * 50);
+            }
+
+            countElement.textContent = formatCount(currentViewers);
+        }, 3000); // Update every 3 seconds
+    }
+
+    // Run the simulation when the page loads
+    document.addEventListener('DOMContentLoaded', simulateLiveViewers);
+
   </script>
 </body>
-  </html>
+</html>
