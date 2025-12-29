@@ -37,7 +37,7 @@
       -webkit-backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
-      justify-content: center; 
+      justify-content: center;
       padding: 0 20px;
       border-bottom: 1px solid var(--border-color);
       z-index: 9999;
@@ -61,7 +61,7 @@
       cursor: pointer;
       color: var(--text-primary);
     }
-    
+
     .popup-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -243,11 +243,11 @@
         font-weight: 500;
     }
     
-    /* Styles for the new viewer count text */
     #viewer-count {
       font-size: 18px;
       font-weight: 600;
       color: var(--text-primary);
+      transition: color 0.3s ease;
     }
     .action-button:hover #viewer-count {
       color: var(--accent-color);
@@ -327,10 +327,10 @@
 
 <div class="action-bar-container">
     <div class="action-bar">
-        <!-- LIVE VIEWER COUNT (REPLACED THE OLD LIVE ICON) -->
+        <!-- LIVE VIEWER COUNT -->
         <div class="action-button">
             <div class="icon-wrapper">
-                <span id="viewer-count">...</span>
+                <span id="viewer-count">0</span>
             </div>
             <span>Watching</span>
         </div>
@@ -358,7 +358,64 @@
 </div>
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
   <script>
+    // आपका दिया हुआ Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyA-vR50CMDYJVHApJir-6fmgRqhFiqQDU8",
+      authDomain: "my-website-cricket.firebaseapp.com",
+      // databaseURL को आपके projectId के आधार पर जोड़ा गया है
+      databaseURL: "https://my-website-cricket-default-rtdb.firebaseio.com",
+      projectId: "my-website-cricket",
+      storageBucket: "my-website-cricket.appspot.com",
+      messagingSenderId: "664276981494",
+      appId: "1:664276981494:web:4d6b5cd5c55f6b6b18fed7"
+    };
+
+    // Firebase को शुरू करें
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // --- असली रियल-टाइम व्यूअर काउंट का लॉजिक ---
+
+    const countElement = document.getElementById('viewer-count');
+    const viewersRef = database.ref('viewers/live_match_1');
+
+    const presenceRef = database.ref('.info/connected');
+    
+    presenceRef.on('value', (snapshot) => {
+      if (snapshot.val() === true) {
+        // यूज़र कनेक्ट है। उसे लिस्ट में जोड़ें।
+        const userRef = viewersRef.push(true);
+
+        // जब यूज़र डिस्कनेक्ट हो, तो उसे लिस्ट से हटा दें।
+        userRef.onDisconnect().remove();
+      }
+    });
+    
+    // व्यूअर्स की संख्या में होने वाले बदलावों को सुनें
+    viewersRef.on('value', (snapshot) => {
+      // व्यूअर्स की असली संख्या प्राप्त करें
+      const viewerCount = snapshot.numChildren();
+      
+      // संख्या को फॉर्मेट करने का फंक्शन (जैसे 1234 को 1.2K बनाना)
+      function formatCount(num) {
+        if (num >= 1000) {
+          return (num / 1000).toFixed(1) + 'K';
+        }
+        return num;
+      }
+      
+      // सीधे असली संख्या को दिखाएँ
+      countElement.textContent = formatCount(viewerCount);
+    });
+
+
+    // --- पेज के अन्य फंक्शन्स ---
+
     const telegramLink = 'https://t.me/+rwZKMV0-L8wyOTll';
 
     function toggleSidebar() {
@@ -388,44 +445,6 @@
             alert('There was an issue sharing. Please copy the link manually.');
         }
     }
-
-    /**
-     * SIMULATED LIVE VIEWER COUNT
-     * NOTE: This is a simulation. A real-time viewer count requires a server
-     * to track active connections and send updates to the clients.
-     */
-    function simulateLiveViewers() {
-        const countElement = document.getElementById('viewer-count');
-        let currentViewers = Math.floor(Math.random() * 800) + 1200; // Start with a random number between 1200 and 2000
-
-        // Function to format numbers (e.g., 1234 becomes 1.2K)
-        function formatCount(num) {
-            if (num >= 1000) {
-                return (num / 1000).toFixed(1) + 'K';
-            }
-            return num;
-        }
-
-        // Set the initial count
-        countElement.textContent = formatCount(currentViewers);
-
-        // Update the count every few seconds to make it look dynamic
-        setInterval(() => {
-            const fluctuation = Math.floor(Math.random() * 50) - 25; // Random change between -25 and +24
-            currentViewers += fluctuation;
-
-            // Make sure the count doesn't go below a certain number
-            if (currentViewers < 1000) {
-                currentViewers = 1000 + Math.floor(Math.random() * 50);
-            }
-
-            countElement.textContent = formatCount(currentViewers);
-        }, 3000); // Update every 3 seconds
-    }
-
-    // Run the simulation when the page loads
-    document.addEventListener('DOMContentLoaded', simulateLiveViewers);
-
   </script>
 </body>
-</html>
+</html>```
