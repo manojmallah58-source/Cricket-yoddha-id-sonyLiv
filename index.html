@@ -32,7 +32,7 @@
       left: 0;
       right: 0;
       height: 70px;
-      background: rgba(13, 17, 23, 0.8);
+      background: rgba(13, 17, 23, 0.95);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       display: flex;
@@ -62,11 +62,12 @@
       color: var(--text-primary);
     }
 
+    /* --- POPUP STYLES --- */
     .popup-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -164,6 +165,7 @@
         color: var(--text-primary);
     }
 
+    /* --- VIDEO PLAYER --- */
     .video-container {
       width: 100vw;
       aspect-ratio: 16/9;
@@ -180,6 +182,7 @@
       display: block;
     }
 
+    /* --- ACTION BAR --- */
     .action-bar-container {
         padding: 25px 15px;
         background: var(--primary-dark);
@@ -253,35 +256,113 @@
       color: var(--accent-color);
     }
 
-
+    /* --- SIDEBAR MENU --- */
     .sidebar {
-      position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
-      background: rgba(22, 27, 34, 0.8);
-      backdrop-filter: blur(20px);
+      position: fixed; top: 0; left: -320px; width: 280px; height: 100%;
+      background: #10141b; /* Darker sidebar background */
       border-right: 1px solid var(--border-color);
-      color: var(--text-primary); z-index: 10001; transition: left 0.5s ease;
-      box-shadow: 4px 0 15px rgba(0,0,0,0.4);
-      border-top-right-radius: 12px; border-bottom-right-radius: 12px;
+      color: var(--text-primary); z-index: 10001; transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 4px 0 25px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
     }
     .sidebar.open { left: 0; }
+    
+    .menu-header {
+      font-size: 22px;
+      font-weight: 700;
+      text-align: center;
+      padding: 30px 0;
+      background: linear-gradient(180deg, rgba(22, 27, 34, 1) 0%, rgba(22, 27, 34, 0) 100%);
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
     .sidebar a {
-      display: block; padding: 15px 24px; color: var(--text-primary); text-decoration: none;
-      border-bottom: 1px solid var(--border-color);
-      font-weight: 500; font-size: 16px;
-      transition: background 0.3s, padding-left 0.3s;
+      display: block; padding: 16px 24px; 
+      color: var(--text-secondary); 
+      text-decoration: none;
+      border-bottom: 1px solid rgba(48, 54, 61, 0.4);
+      font-weight: 500; font-size: 15px;
+      transition: all 0.3s ease;
     }
      .sidebar a:hover {
-        background: rgba(250, 204, 21, 0.1);
-        padding-left: 30px;
+        background: rgba(250, 204, 21, 0.05);
+        color: var(--text-primary);
+        padding-left: 32px;
+        border-left: 3px solid var(--accent-color);
     }
-    .menu-header {
-      font-size: 20px;
-      font-weight: 600;
-      text-align: center;
-      padding: 22px 0;
-      border-bottom: 1px solid var(--border-color);
-      background: var(--secondary-dark);
-      color: var(--accent-color);
+
+    /* --- STATS BOX CSS (GLOWING STYLE) --- */
+    .stats-container {
+        margin-top: auto; 
+        padding: 20px;
+        border-top: 1px solid var(--border-color);
+        background: #0d1117;
+    }
+    
+    .stats-box {
+        background: linear-gradient(135deg, rgba(250, 204, 21, 0.1), rgba(22, 27, 34, 0.6));
+        border: 1px solid rgba(250, 204, 21, 0.3);
+        border-radius: 16px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stats-box::before {
+        content: '';
+        position: absolute;
+        top: -50%; left: -50%;
+        width: 200%; height: 200%;
+        background: radial-gradient(circle, rgba(250,204,21,0.15) 0%, transparent 70%);
+        opacity: 0.5;
+        animation: pulseGlow 4s infinite linear;
+    }
+
+    @keyframes pulseGlow {
+        0% { transform: scale(1); opacity: 0.3; }
+        50% { transform: scale(1.1); opacity: 0.6; }
+        100% { transform: scale(1); opacity: 0.3; }
+    }
+    
+    .stats-icon {
+        background: rgba(250, 204, 21, 0.2);
+        color: var(--accent-color);
+        width: 40px; height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        box-shadow: 0 0 10px rgba(250, 204, 21, 0.2);
+        z-index: 1;
+    }
+    
+    .stats-info {
+        display: flex;
+        flex-direction: column;
+        z-index: 1;
+    }
+    
+    .stats-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+        letter-spacing: 0.5px;
+        font-weight: 600;
+    }
+    
+    .stats-number {
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--text-primary);
+        line-height: 1.2;
     }
     
     .overlay {
@@ -291,13 +372,13 @@
       background: rgba(0, 0, 0, 0.7);
       z-index: 10000;
       display: none;
+      backdrop-filter: blur(2px);
     }
     .overlay.show { display: block; }
   </style>
 </head>
 <body>
 
-<!-- =========== TELEGRAM POPUP ============ -->
 <div class="popup-overlay" id="popup">
   <div class="popup-box">
     <button class="close-btn" onclick="closePopup()">×</button>
@@ -317,7 +398,7 @@
 
 <div class="video-container">
   <iframe
-    src="https://cricketstan.github.io/channel-10"
+    src="https://allrounderlive.pages.dev/player4?url=https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
     frameborder="0"
     allowfullscreen
     allow="autoplay; encrypted-media"
@@ -327,7 +408,6 @@
 
 <div class="action-bar-container">
     <div class="action-bar">
-        <!-- LIVE VIEWER COUNT -->
         <div class="action-button">
             <div class="icon-wrapper">
                 <span id="viewer-count">0</span>
@@ -352,22 +432,55 @@
 
 <div class="sidebar" id="sidebar">
   <div class="menu-header">MENU</div>
-  <a href="https://t.me/+rwZKMV0-L8wyOTll" target="_blank">Join Our Telegram</a>
-  <a href="https://t.me/+rwZKMV0-L8wyOTll" target="_blank">Contact Us</a>
-  <a href="https://t.me/+rwZKMV0-L8wyOTll" target="_blank">Copyright</a>
+  
+  <div style="flex-grow: 1;"> <a href="https://t.me/+rwZKMV0-L8wyOTll" target="_blank">
+          <i class="material-icons" style="vertical-align: middle; font-size: 18px; margin-right: 10px; color: var(--accent-color);">telegram</i>
+          Join Our Telegram
+      </a>
+      <a href="https://t.me/+rwZKMV0-L8wyOTll" target="_blank">
+          <i class="material-icons" style="vertical-align: middle; font-size: 18px; margin-right: 10px;">mail</i>
+          Contact Us
+      </a>
+      <a href="https://t.me/+rwZKMV0-L8wyOTll" target="_blank">
+          <i class="material-icons" style="vertical-align: middle; font-size: 18px; margin-right: 10px;">copyright</i>
+          Copyright
+      </a>
+  </div>
+
+  <div class="stats-container">
+      <div class="stats-box">
+          <div class="stats-icon">
+              <span class="material-icons">today</span>
+          </div>
+          <div class="stats-info">
+              <span class="stats-label">Today's Visits</span>
+              <span class="stats-number" id="total-views-count">Loading...</span>
+          </div>
+      </div>
+  </div>
+
 </div>
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-  <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <script>
-    // आपका दिया हुआ Firebase Config
+    // ==========================================
+    // 👇👇 सबसे ज़रूरी सेटिंग (इसे हर वेबसाइट के लिए बदलें) 👇👇
+    // पहली वेबसाइट के लिए: "channel_1"
+    // दूसरी वेबसाइट के लिए: "channel_2"
+    // तीसरी वेबसाइट के लिए: "channel_3"
+    
+    const WEBSITE_ID = "channel_sonyliv"; 
+    
+    // ==========================================
+
+
+    // --- FIREBASE CONFIGURATION (आपका असली कोड) ---
     const firebaseConfig = {
       apiKey: "AIzaSyA-vR50CMDYJVHApJir-6fmgRqhFiqQDU8",
       authDomain: "my-website-cricket.firebaseapp.com",
-      // databaseURL को आपके projectId के आधार पर जोड़ा गया है
       databaseURL: "https://my-website-cricket-default-rtdb.firebaseio.com",
       projectId: "my-website-cricket",
       storageBucket: "my-website-cricket.appspot.com",
@@ -379,43 +492,47 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
-    // --- असली रियल-टाइम व्यूअर काउंट का लॉजिक ---
-
+    // --- 1. LIVE WATCHING COUNT (Unique per Website) ---
     const countElement = document.getElementById('viewer-count');
-    const viewersRef = database.ref('viewers/live_match_1');
-
+    const viewersRef = database.ref('viewers/' + WEBSITE_ID);
     const presenceRef = database.ref('.info/connected');
     
     presenceRef.on('value', (snapshot) => {
       if (snapshot.val() === true) {
-        // यूज़र कनेक्ट है। उसे लिस्ट में जोड़ें।
         const userRef = viewersRef.push(true);
-
-        // जब यूज़र डिस्कनेक्ट हो, तो उसे लिस्ट से हटा दें।
         userRef.onDisconnect().remove();
       }
     });
     
-    // व्यूअर्स की संख्या में होने वाले बदलावों को सुनें
     viewersRef.on('value', (snapshot) => {
-      // व्यूअर्स की असली संख्या प्राप्त करें
       const viewerCount = snapshot.numChildren();
-      
-      // संख्या को फॉर्मेट करने का फंक्शन (जैसे 1234 को 1.2K बनाना)
       function formatCount(num) {
-        if (num >= 1000) {
-          return (num / 1000).toFixed(1) + 'K';
-        }
+        if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
         return num;
       }
-      
-      // सीधे असली संख्या को दिखाएँ
       countElement.textContent = formatCount(viewerCount);
     });
 
+    // --- 2. TODAY'S VISITS (Unique per Website + Daily Reset) ---
+    const todayDate = new Date().toDateString();
+    
+    // Path: daily_visits / channel_NAME / DATE
+    const visitsRef = database.ref('daily_visits/' + WEBSITE_ID + '/' + todayDate);
 
-    // --- पेज के अन्य फंक्शन्स ---
+    visitsRef.transaction((currentVisits) => {
+      return (currentVisits || 0) + 1;
+    });
 
+    visitsRef.on('value', (snapshot) => {
+      const todayVisits = snapshot.val();
+      function formatTotal(num) {
+          return num ? num.toLocaleString() : '0';
+      }
+      document.getElementById('total-views-count').innerText = formatTotal(todayVisits);
+    });
+
+
+    // --- अन्य फंक्शन्स ---
     const telegramLink = 'https://t.me/+rwZKMV0-L8wyOTll';
 
     function toggleSidebar() {
@@ -438,13 +555,13 @@
                 await navigator.share(shareData);
             } else {
                 await navigator.clipboard.writeText(shareData.text + '\n\nLink: ' + shareData.url);
-                alert("Link and sharing text copied! You can now share it anywhere.");
+                alert("Link copied!");
             }
         } catch (err) {
             console.error('Share failed:', err);
-            alert('There was an issue sharing. Please copy the link manually.');
         }
     }
   </script>
 </body>
-</html>```
+</html>
+
